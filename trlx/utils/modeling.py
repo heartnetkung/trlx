@@ -111,7 +111,7 @@ def hf_get_causal_base_model(model: transformers.AutoModelForCausalLM) -> nn.Mod
         - model.decoder: (OPTConfig, BloomConfig)
         - gpt_neox: (GPTNeoXConfig)
     """
-    decoder_attrs = ("transformer", "model.decoder", "gpt_neox")
+    decoder_attrs = ("transformer", "model.decoder", "gpt_neox", 'base_model')
     return findattr(model, decoder_attrs)
 
 
@@ -126,6 +126,7 @@ def hf_get_causal_final_norm(model: nn.Module) -> float:
         "transformer.ln_f",
         "model.decoder.final_layer_norm",
         "gpt_neox.final_layer_norm",
+        'base_model.layer_norm'
     )
     return findattr(model, norm_attrs)
 
@@ -144,6 +145,7 @@ def hf_get_causal_hidden_layers(model: nn.Module) -> Tuple[nn.Module]:
         "transformer.h",
         "model.decoder.layers",
         "gpt_neox.layers",
+        "base_model.layers"
     )
     return findattr(model, hidden_layers_attrs)
 
@@ -166,7 +168,7 @@ def hf_get_hidden_size(config: transformers.PretrainedConfig) -> int:
         - n_embd: (GPT2Config, GPTJConfig)
         - d_model: (PegasusConfig, XLNetConfig)
     """
-    hidden_size_attrs = ("hidden_size", "n_embd", "d_model")
+    hidden_size_attrs = ("hidden_size", "n_embd", "d_model", "embed_dim")
     return findattr(config, hidden_size_attrs)
 
 
