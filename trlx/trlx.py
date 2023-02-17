@@ -106,6 +106,9 @@ def train(  # noqa: C901
             eval_prompts = [trainer.tokenizer.bos_token] * batch_size
 
         if rewards:
+            print(1,samples)
+            print(2,rewards)
+            print(3,config)
             trainer.make_experience(samples, rewards, config.train.seq_length)
         else:
             trainer.store = get_pipeline(config.train.pipeline)(samples, max_prompt_length, trainer.tokenizer)
